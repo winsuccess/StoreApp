@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">StoreApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="account">Tài khoản</string>
+    <string name="signUp">Đăng ký</string>
+    <string name="login">Đăng nhập</string>
+    <string name="homePage">Trang chủ</string>
+    <string name="category">Danh mục sản phẩm</string>
+    <string name="orderManagement">Quản lý đơn hàng</string>
+    <string name="accountManagement">Quản lý tài khoản</string>
+    <string name="newItems">Các sản phẩm mới</string>
+    <string name="hotItems">Các sản phẩm bán chạy</string>
+    <string name="contentDescription">"Mô tả sản phẩm"</string>
+    <string name="cart">Cart</string>
+    <string name="seeAll">Xem tất cả ></string>
+    <string name="phone">Điện thoại</string>
+    <string name="computer">Máy tính</string>
+    <string name="electrichousehold">Đồ điện da dụng</string>
+    <string name="itemDetailName">Bạn Đắt Giá Bao Nhiêu?</string>
+    <string name="itemDetailCost">53.995 đ</string>
+    <string name="itemDetailDescription">Sách về tuổi dậy thì</string>
+    <string name="addToCart">Thêm vào giỏ hàng</string>
+</resources>
