@@ -1,25 +1,29 @@
-package com.example.storeapp;
+package com.example.storeapp.Activity;
 
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-public class ItemListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.example.storeapp.R;
+
+public class CartActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        setContentView(R.layout.activity_cart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -29,17 +33,16 @@ public class ItemListActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        recyclerView = (RecyclerView) findViewById(R.id.cart_recyclerView);
+        recyclerView.setHasFixedSize(true);
 
-        CardView item = findViewById(R.id.itemList_itemView);
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ItemListActivity.this, ItemDetailActivity.class));
-            }
-        });
+        // specify an adapter (see also next example)
+        //mAdapter = new ItemListAdapter();
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -66,29 +69,7 @@ public class ItemListActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_homePage) {
-            startActivity(new Intent(this, MainActivity.class));
-        } else if (id == R.id.nav_category) {
-            startActivity(new Intent(this, CategoryActivity.class));
-        } else if (id == R.id.nav_orderManagement) {
-
-        } else if (id == R.id.nav_accountManagement) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

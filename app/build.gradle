@@ -16,6 +16,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+}
+configurations {
+    all*.exclude module: 'classworlds'
+    all*.exclude module: 'commons-logging'
+    all*.exclude module: 'httpclient'
+    all*.exclude module: 'maven-artifact'
+    all*.exclude module: 'maven-artifact-manager'
+    all*.exclude module: 'maven-error-diagnostics'
+    all*.exclude module: 'maven-model'
+    all*.exclude module: 'maven-project'
+    all*.exclude module: 'maven-settings'
+    all*.exclude module: 'plexus-container-default'
+    all*.exclude module: 'plexus-interpolation'
+    all*.exclude module: 'plexus-utils'
+    all*.exclude module: 'wagon-file'
+    all*.exclude module: 'wagon-http-lightweight'
+    all*.exclude module: 'wagon-provider-api'
+
 }
 
 dependencies {
@@ -31,4 +59,7 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:gridlayout-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation group: 'org.springframework.android', name: 'spring-android-rest-template', version: '1.0.1.RELEASE'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+
 }

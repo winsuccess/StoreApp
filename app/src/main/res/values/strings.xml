@@ -25,4 +25,5 @@
     <string name="itemDetailCost">53.995 đ</string>
     <string name="itemDetailDescription">Sách về tuổi dậy thì</string>
     <string name="addToCart">Thêm vào giỏ hàng</string>
+    <string name="order">Đặt hàng</string>
 </resources>

@@ -1,30 +1,27 @@
-package com.example.storeapp;
+package com.example.storeapp.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewStub;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity
+import com.example.storeapp.R;
+
+public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_category);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,10 +33,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        LinearLayout phoneCategoryView = findViewById(R.id.phoneCategoryView);
+        LinearLayout computerCategoryView = findViewById(R.id.computerCategoryView);
+        LinearLayout householdCategoryView = findViewById(R.id.householdCategoryView);
 
-        TextView seeAll = (TextView) findViewById(R.id.seeall);
-        TextView seeAll2 = (TextView) findViewById(R.id.seeall2);
-
+        Intent intent = getIntent();
+        String category = intent.getStringExtra("danhmuc");
     }
 
     @Override
@@ -67,7 +66,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-
+        if(id==R.id.action_cart)
+            startActivity(new Intent(this, CartActivity.class));
         return super.onOptionsItemSelected(item);
     }
 
@@ -78,9 +78,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_homePage) {
-
+            startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.nav_category) {
-            startActivity(new Intent(this, CategoryActivity.class));
+
         } else if (id == R.id.nav_orderManagement) {
 
         } else if (id == R.id.nav_accountManagement) {
@@ -92,8 +92,21 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void seeItemList(View v){
-        startActivity(new Intent(this, ItemListActivity.class));
+    public void seePhoneItemList(View v) {
+        Intent intent = new Intent(this, ItemListActivity.class);
+        intent.putExtra("danhmuc", "Điện thoại");
+        startActivity(intent);
     }
 
+    public void seeComputerItemList(View v) {
+        Intent intent = new Intent(this, ItemListActivity.class);
+        intent.putExtra("danhmuc", "Máy tính");
+        startActivity(intent);
+    }
+
+    public void seeElectronicItemList(View v) {
+        Intent intent = new Intent(this, ItemListActivity.class);
+        intent.putExtra("danhmuc", "Đồ điện tử");
+        startActivity(intent);
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.storeapp;
+package com.example.storeapp.Activity;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
@@ -8,19 +8,37 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-public class CategoryActivity extends AppCompatActivity
+import com.example.storeapp.R;
+import com.example.storeapp.controller.ItemListAdapter;
+import com.example.storeapp.controller.RestControl;
+import com.example.storeapp.model.MatHang;
+import com.example.storeapp.model.request.MatHangRequest;
+import com.example.storeapp.model.response.MatHangResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private List<MatHang> mhList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ItemListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.activity_item_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,30 +50,16 @@ public class CategoryActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        LinearLayout phoneCategoryView = findViewById(R.id.phoneCategoryView);
-        LinearLayout computerCategoryView = findViewById(R.id.computerCategoryView);
-        LinearLayout householdCategoryView = findViewById(R.id.householdCategoryView);
 
-        phoneCategoryView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CategoryActivity.this, ItemListActivity.class));
-            }
-        });
+        Intent intent = getIntent();
+        String category = intent.getStringExtra("danhmuc");
+        prepareItemsList(category);
 
-        computerCategoryView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CategoryActivity.this, ItemListActivity.class));
-            }
-        });
-
-        householdCategoryView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CategoryActivity.this, ItemListActivity.class));
-            }
-        });
+        recyclerView = (RecyclerView) findViewById(R.id.rv_itemList);
+        mAdapter = new ItemListAdapter(mhList);
+        GridLayoutManager mGridManager = new GridLayoutManager(this, 3);
+        recyclerView.setLayoutManager(mGridManager);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -83,7 +87,8 @@ public class CategoryActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-
+        if (id == R.id.action_cart)
+            startActivity(new Intent(this, CartActivity.class));
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,7 +101,7 @@ public class CategoryActivity extends AppCompatActivity
         if (id == R.id.nav_homePage) {
             startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.nav_category) {
-
+            startActivity(new Intent(this, CategoryActivity.class));
         } else if (id == R.id.nav_orderManagement) {
 
         } else if (id == R.id.nav_accountManagement) {
@@ -106,5 +111,30 @@ public class CategoryActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void prepareItemsList(String danhmuc) {
+        ImageView itemImg = findViewById(R.id.main_itemImg);
+        TextView itemName = (TextView) findViewById(R.id.main_itemName);
+        TextView itemCost = (TextView) findViewById(R.id.main_itemCost);
+        RestControl restControl = new RestControl();
+        MatHangRequest mhRequest;
+        if (danhmuc.equalsIgnoreCase("new"))
+            mhRequest = new MatHangRequest("", 0, "");
+        else if (danhmuc.equalsIgnoreCase("hot"))
+            mhRequest = new MatHangRequest("", 0, "0");
+        else
+            mhRequest = new MatHangRequest(danhmuc, 0, "");
+        MatHangResponse mhResponse = new MatHangResponse();
+        try {
+            mhResponse = restControl.getBanChay(mhRequest);
+        } catch (Exception e) {
+        }
+        if (mhResponse != null) {
+            for (MatHang mh : mhResponse.getMatHang()) {
+                mhList.add(mh);
+            }
+        }
+        //mAdapter.notifyDataSetChanged();
     }
 }
