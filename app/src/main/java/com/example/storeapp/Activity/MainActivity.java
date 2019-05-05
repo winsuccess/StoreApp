@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity
         prepareHotItemsList();
 
         recyclerView1 = (RecyclerView) findViewById(R.id.rv_newItemList);
-        mAdapter1 = new ItemListAdapter(mhNewList);
-        GridLayoutManager mGridManager = new GridLayoutManager(this,3);
-        recyclerView1.setLayoutManager(mGridManager);
+        mAdapter1 = new ItemListAdapter(mhNewList, this);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView1.setLayoutManager(mLayoutManager1);
         recyclerView1.setAdapter(mAdapter1);
 
         recyclerView2 = (RecyclerView) findViewById(R.id.rv_hotItemList);
-        mAdapter2 = new ItemListAdapter(mhHotList);
+        mAdapter2 = new ItemListAdapter(mhHotList, this);
         RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView2.setLayoutManager(mLayoutManager2);
         recyclerView2.setAdapter(mAdapter2);
@@ -120,18 +120,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void seeNewItemList(View v) {
-        Intent intent = new Intent(this, ItemListActivity.class);
-        intent.putExtra("danhmuc", "new");
-        startActivity(intent);
-    }
-
-    public void seeHotItemList(View v) {
-        Intent intent = new Intent(this, ItemListActivity.class);
-        intent.putExtra("danhmuc", "hot");
-        startActivity(intent);
-    }
-
     public void prepareNewItemsList(){
         ImageView itemImg = findViewById(R.id.main_itemImg);
         TextView itemName = (TextView) findViewById(R.id.main_itemName);
@@ -176,6 +164,18 @@ public class MainActivity extends AppCompatActivity
             }
         }
         //mAdapter.notifyDataSetChanged();
+    }
+
+    public void seeNewItemList(View v) {
+        Intent intent = new Intent(this, ItemListActivity.class);
+        intent.putExtra("danhmuc", "new");
+        startActivity(intent);
+    }
+
+    public void seeHotItemList(View v) {
+        Intent intent = new Intent(this, ItemListActivity.class);
+        intent.putExtra("danhmuc", "hot");
+        startActivity(intent);
     }
 
 }

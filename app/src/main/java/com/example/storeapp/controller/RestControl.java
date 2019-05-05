@@ -29,7 +29,7 @@ public class RestControl {
         return new GetMatHang().execute(maMatHang).get();
     }
 
-    public static final String HOSTNAME = "http://192.168.43.158:8080";
+    public static final String HOSTNAME = "http://192.168.1.100:8080";
 
     public class GetDonHang extends AsyncTask<String, Void, DonHangResponse> {
 

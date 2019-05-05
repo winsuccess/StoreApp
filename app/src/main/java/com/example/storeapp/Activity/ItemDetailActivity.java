@@ -1,5 +1,7 @@
 package com.example.storeapp.Activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,34 +11,34 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.storeapp.R;
+import com.example.storeapp.model.MatHang;
 
 public class ItemDetailActivity extends AppCompatActivity {
 
+    private Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
+        MatHang mh = (MatHang) getIntent().getSerializableExtra("mathang");
 
+        preprareDetailItem(mh);
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -54,8 +56,23 @@ public class ItemDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id==R.id.action_cart)
-            startActivity(new Intent(this, CartActivity.class));
+        if (id == R.id.home)
+        {
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void preprareDetailItem(MatHang mh) {
+        ImageView imgView = findViewById(R.id.imageView);
+        TextView detailItemName = findViewById(R.id.itemDetailName);
+        TextView detailItemCost = findViewById(R.id.itemDetailCost);
+        TextView detailItemDescription = findViewById(R.id.itemDetailDescription);
+
+        new DownloadImageTask(imgView)
+                .execute(mh.getAnh());
+        detailItemName.setText(mh.getTenMatHang());
+        detailItemCost.setText(String.valueOf(mh.getGia()));
+        detailItemDescription.setText(mh.getMoTa());
     }
 }

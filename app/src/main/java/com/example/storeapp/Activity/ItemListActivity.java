@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ public class ItemListActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private ItemListAdapter mAdapter;
 
+    public static String category;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +55,10 @@ public class ItemListActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent();
-        String category = intent.getStringExtra("danhmuc");
+        category = intent.getStringExtra("danhmuc");
         prepareItemsList(category);
-
         recyclerView = (RecyclerView) findViewById(R.id.rv_itemList);
-        mAdapter = new ItemListAdapter(mhList);
+        mAdapter = new ItemListAdapter(mhList,this);
         GridLayoutManager mGridManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(mGridManager);
         recyclerView.setAdapter(mAdapter);
@@ -111,6 +113,21 @@ public class ItemListActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        category = savedInstanceState.getString(category);
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(!TextUtils.isEmpty(category)){
+            Intent intent = getIntent();
+            if(intent!=null)
+            outState.putString(intent.getStringExtra("danhmuc"), category);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     public void prepareItemsList(String danhmuc) {

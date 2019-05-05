@@ -1,13 +1,19 @@
 package com.example.storeapp.controller;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.storeapp.Activity.DownloadImageTask;
+import com.example.storeapp.Activity.ItemDetailActivity;
+import com.example.storeapp.Activity.ItemListActivity;
 import com.example.storeapp.R;
 import com.example.storeapp.model.MatHang;
 
@@ -18,8 +24,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyView
 
     private List<MatHang> mhList;
 
-    public ItemListAdapter(List<MatHang> mhList) {
+    private Context context;
+    public ItemListAdapter(List<MatHang> mhList, Context context) {
         this.mhList = mhList;
+        this.context = context;
     }
 
     @Override
@@ -32,11 +40,19 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        MatHang mh = mhList.get(position);
+        final MatHang mh = mhList.get(position);
         holder.itemName.setText(mh.getTenMatHang());
         holder.itemCost.setText(String.valueOf(mh.getGia())+" VND");
         new DownloadImageTask(holder.itemImg)
                 .execute(mh.getAnh());
+        holder.itemLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ItemDetailActivity.class);
+                intent.putExtra("mathang",mh);
+                context.startActivity(intent);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -49,12 +65,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyView
         TextView itemName;
         TextView itemCost;
         ImageView itemImg;
+        LinearLayout itemLinearLayout;
 
         public MyViewHolder(View v) {
             super(v);
             itemName =  itemView.findViewById(R.id.main_itemName);
             itemCost = itemView.findViewById(R.id.main_itemCost);
             itemImg = itemView.findViewById(R.id.main_itemImg);
+            itemLinearLayout = itemView.findViewById(R.id.alt_item);
         }
     }
 }

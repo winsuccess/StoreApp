@@ -34,8 +34,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:contentDescription="@string/contentDescription"
-                    android:src="@drawable/bia_bandatgiabaonhieu_full" />
+                    android:contentDescription="@string/contentDescription" />
 
                 <TextView
                     android:id="@+id/itemDetailName"
@@ -43,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:shadowColor="@android:color/darker_gray"
-                    android:text="@string/itemDetailName"
                     android:textColor="@android:color/black"
                     android:textSize="24sp" />
 
@@ -53,7 +51,6 @@
                     android:layout_height="50dp"
                     android:layout_gravity="start"
                     android:layout_margin="5dp"
-                    android:text="@string/itemDetailCost"
                     android:textColor="@android:color/black"
                     android:textSize="36sp"
                     android:textStyle="bold" />
@@ -61,8 +58,7 @@
                 <TextView
                     android:id="@+id/itemDetailDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="@string/itemDetailDescription"
+                    android:layout_height="wrap_content"
                     android:textSize="18sp" />
 
             </LinearLayout>
